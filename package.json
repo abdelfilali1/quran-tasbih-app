@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "quran-tasbih-app",
   "version": "1.0.0",
   "description": "Quran reader and Tasbih counter - Islamic web app",
@@ -13,3 +13,4 @@
     "node": ">=18"
   }
 }
+

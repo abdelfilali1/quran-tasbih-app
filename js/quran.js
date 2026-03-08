@@ -1,4 +1,4 @@
-/* =========================================================
+﻿/* =========================================================
    QURAN.JS - Quran Reader Logic
    ========================================================= */
 
@@ -287,6 +287,10 @@
 
   function showError(err) {
     console.error(err);
+    const safeMessage = String(err?.message || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
     const offlineHint = !navigator.onLine
       ? 'You appear to be offline and no cached copy was found.'
       : 'Please check your internet connection and try again.';
@@ -296,7 +300,7 @@
         <h3>Failed to load</h3>
         <p>${offlineHint}</p>
         <button type="button" class="btn btn-primary" id="retry-surah-btn" style="margin-top:14px">Retry</button>
-        <p style="margin-top:8px;font-size:0.75rem;color:var(--text-faint)">${err.message || ''}</p>
+        <p style="margin-top:8px;font-size:0.75rem;color:var(--text-faint)">${safeMessage}</p>
       </div>`;
   }
 
@@ -437,3 +441,4 @@
   /* ---------- Boot ---------- */
   document.addEventListener('DOMContentLoaded', init);
 })();
+
