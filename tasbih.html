@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Interactive digital Tasbih counter for Islamic dhikr and remembrance." />
+  <meta name="description" content="Interactive digital Tasbih counter for Islamic dhikr and remembrance." />`r`n  <meta name="theme-color" content="#0D1B12" />
   <title>التسبيح — Tasbih Counter</title>
 
   <!-- Fonts -->
@@ -11,8 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
 
-  <!-- Styles -->
-  <link rel="stylesheet" href="css/main.css" />
+  <!-- Styles -->`r`n  <link rel="manifest" href="manifest.webmanifest" />`r`n  <link rel="stylesheet" href="css/main.css" />
   <link rel="stylesheet" href="css/tasbih.css" />
 </head>
 <body>
@@ -129,11 +128,7 @@
     </div>
 
     <!-- Action Buttons -->
-    <div class="action-buttons">
-      <button class="btn btn-reset" id="reset-btn" aria-label="Reset counter">
-        Reset
-      </button>
-    </div>
+    <div class="action-buttons">`r`n      <button class="btn" id="undo-btn" aria-label="Undo last count">Undo</button>`r`n      <button class="btn btn-reset" id="reset-btn" aria-label="Reset counter">`r`n        Reset`r`n      </button>`r`n    </div>
 
     <!-- Instructions -->
     <p style="text-align:center;font-family:'Cinzel',serif;font-size:0.65rem;
@@ -153,15 +148,15 @@
       <div class="modal-summary">
         <div class="summary-row">
           <span class="summary-phrase">SubhanAllah</span>
-          <span class="summary-count">× 33</span>
+          <span class="summary-count" id="modal-subhan-count">x 33</span>
         </div>
         <div class="summary-row">
           <span class="summary-phrase">Alhamdulillah</span>
-          <span class="summary-count">× 33</span>
+          <span class="summary-count" id="modal-subhan-count">x 33</span>
         </div>
         <div class="summary-row">
           <span class="summary-phrase">Allahu Akbar</span>
-          <span class="summary-count">× 34</span>
+          <span class="summary-count" id="modal-akbar-count">x 34</span>
         </div>
         <div class="gold-divider" style="margin:8px 0"></div>
         <div class="summary-row" style="color:var(--gold)">
@@ -186,7 +181,7 @@
     </p>
   </footer>
 
-  <!-- Scripts -->
-  <script src="js/tasbih.js"></script>
+  <!-- Scripts -->`r`n  <script src="js/utils/tasbih-utils.js"></script>`r`n  <script src="js/tasbih.js"></script>`r`n  <script src="js/pwa.js"></script>
 </body>
 </html>
+

@@ -277,8 +277,32 @@
 
 .verse-header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 16px;
+}
+
+.verse-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.verse-copy-btn {
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-muted);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition), background var(--transition);
+}
+
+.verse-copy-btn:hover {
+  border-color: var(--gold-dim);
+  color: var(--gold);
+  background: rgba(201, 168, 76, 0.1);
 }
 
 .ayah-badge {
