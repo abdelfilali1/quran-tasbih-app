@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Interactive digital Tasbih counter for Islamic dhikr and remembrance." />
+  <title>التسبيح — Tasbih Counter</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/tasbih.css" />
+</head>
+<body>
+
+  <!-- Geometric background texture -->
+  <div class="bg-pattern" aria-hidden="true"></div>
+
+  <!-- ====== HEADER ====== -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="app-title">
+        <span class="title-arabic">التسبيح</span>
+        <span class="title-latin">Tasbih Counter</span>
+      </div>
+      <nav class="app-nav" aria-label="Main navigation">
+        <a href="index.html" class="nav-link">
+          <span class="nav-icon" aria-hidden="true">☽</span>
+          <span>Quran</span>
+        </a>
+        <a href="tasbih.html" class="nav-link active" aria-current="page">
+          <span class="nav-icon" aria-hidden="true">✦</span>
+          <span>Tasbih</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ====== MAIN ====== -->
+  <main class="tasbih-page">
+
+    <!-- Mode Tabs -->
+    <div class="mode-tabs" role="tablist" aria-label="Tasbih mode">
+      <button class="mode-tab active" data-mode="preset" role="tab" aria-selected="true">
+        Tasbeeh Fatimah
+      </button>
+      <button class="mode-tab" data-mode="custom" role="tab" aria-selected="false">
+        Custom
+      </button>
+      <button class="mode-tab" data-mode="free" role="tab" aria-selected="false">
+        Free
+      </button>
+    </div>
+
+    <!-- Dhikr Label -->
+    <div class="dhikr-label" aria-live="polite">
+      <span class="dhikr-arabic" id="dhikr-arabic" dir="rtl">سُبْحَانَ اللَّهِ</span>
+      <span class="dhikr-transliteration" id="dhikr-translit">SubhanAllah</span>
+      <span class="dhikr-english" id="dhikr-english">Glory be to Allah</span>
+    </div>
+
+    <!-- Phase Indicator Dots (Preset mode only) -->
+    <div class="phase-indicator" aria-label="Phase progress" role="list">
+      <div class="phase-dot active" role="listitem" aria-label="SubhanAllah phase"></div>
+      <div class="phase-dot"        role="listitem" aria-label="Alhamdulillah phase"></div>
+      <div class="phase-dot"        role="listitem" aria-label="Allahu Akbar phase"></div>
+    </div>
+
+    <!-- Bead Ring + Counter -->
+    <div
+      id="bead-ring-wrap"
+      class="bead-ring-wrap phase-1"
+      role="button"
+      tabindex="0"
+      aria-label="Tasbih counter — click or press Space to count"
+      aria-live="polite"
+    >
+      <!-- SVG bead ring is injected here by tasbih.js -->
+
+      <!-- Center counter display -->
+      <div class="center-tap">
+        <span class="count-display" id="count-display">0</span>
+        <span class="count-label">Count</span>
+        <span class="tap-hint">Tap to count</span>
+      </div>
+    </div>
+
+    <!-- Totals Row -->
+    <div class="totals-row">
+      <div class="total-item">
+        <span class="total-value" id="total-display">0</span>
+        <span class="total-label">Total</span>
+      </div>
+    </div>
+
+    <!-- Custom Mode Panel -->
+    <div id="custom-panel" class="custom-panel hidden">
+      <h3>Custom Dhikr</h3>
+      <div class="custom-form">
+        <div class="custom-field">
+          <label for="custom-dhikr">Arabic phrase</label>
+          <input
+            type="text"
+            id="custom-dhikr"
+            class="custom-input"
+            placeholder="e.g. لَا إِلَٰهَ إِلَّا اللَّهُ"
+            dir="rtl"
+            aria-label="Enter Arabic dhikr phrase"
+          />
+        </div>
+        <div class="custom-field">
+          <label for="custom-target">Target count</label>
+          <input
+            type="number"
+            id="custom-target"
+            class="custom-input"
+            value="33"
+            min="1"
+            max="1000"
+            aria-label="Target count"
+          />
+        </div>
+        <button class="btn btn-primary" id="custom-apply">Apply</button>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="btn btn-reset" id="reset-btn" aria-label="Reset counter">
+        Reset
+      </button>
+    </div>
+
+    <!-- Instructions -->
+    <p style="text-align:center;font-family:'Cinzel',serif;font-size:0.65rem;
+              letter-spacing:0.14em;text-transform:uppercase;color:var(--text-faint);margin-top:8px;">
+      Click · Touch · Spacebar · Enter
+    </p>
+
+  </main>
+
+  <!-- ====== SESSION COMPLETE MODAL ====== -->
+  <div id="modal-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card">
+      <div class="modal-star" aria-hidden="true">✦</div>
+      <div class="modal-title" id="modal-title" dir="rtl">بَارَكَ اللَّهُ فِيكَ</div>
+      <div class="modal-subtitle">Session Complete — May Allah accept your dhikr</div>
+
+      <div class="modal-summary">
+        <div class="summary-row">
+          <span class="summary-phrase">SubhanAllah</span>
+          <span class="summary-count">× 33</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-phrase">Alhamdulillah</span>
+          <span class="summary-count">× 33</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-phrase">Allahu Akbar</span>
+          <span class="summary-count">× 34</span>
+        </div>
+        <div class="gold-divider" style="margin:8px 0"></div>
+        <div class="summary-row" style="color:var(--gold)">
+          <span class="summary-phrase" style="font-weight:700">Total</span>
+          <span class="summary-count" id="modal-total">100</span>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn btn-primary" id="modal-again">Count Again</button>
+        <button class="btn" id="modal-close">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="app-footer">
+    <p>
+      Tasbeeh Fatimah: SubhanAllah × 33 · Alhamdulillah × 33 · Allahu Akbar × 34
+      &nbsp;·&nbsp;
+      Based on authentic hadith (Sahih al-Bukhari &amp; Muslim)
+    </p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/tasbih.js"></script>
+</body>
+</html>

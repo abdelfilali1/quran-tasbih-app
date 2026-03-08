@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Read the Holy Quran in Arabic with verified English translations." />
+  <title>القرآن الكريم — The Holy Quran</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/quran.css" />
+</head>
+<body class="font-medium">
+
+  <!-- Geometric background texture -->
+  <div class="bg-pattern" aria-hidden="true"></div>
+
+  <!-- ====== HEADER ====== -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="app-title">
+        <span class="title-arabic">القرآن الكريم</span>
+        <span class="title-latin">The Holy Quran</span>
+      </div>
+      <nav class="app-nav" aria-label="Main navigation">
+        <a href="index.html" class="nav-link active" aria-current="page">
+          <span class="nav-icon" aria-hidden="true">☽</span>
+          <span>Quran</span>
+        </a>
+        <a href="tasbih.html" class="nav-link">
+          <span class="nav-icon" aria-hidden="true">✦</span>
+          <span>Tasbih</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ====== MAIN ====== -->
+  <main class="main-content">
+
+    <!-- Controls Bar -->
+    <div class="controls-bar" role="toolbar" aria-label="Reader controls">
+
+      <!-- Surah Selector -->
+      <div class="control-group">
+        <label for="surah-select" class="control-label">Surah</label>
+        <div class="select-wrapper">
+          <select id="surah-select" class="styled-select" aria-label="Select a surah">
+            <option value="">Loading surahs…</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Translation Switcher -->
+      <div class="control-group">
+        <span class="control-label" id="translation-label">Translation</span>
+        <div class="translation-toggle" role="group" aria-labelledby="translation-label">
+          <button class="toggle-btn active" data-translation="131"
+            aria-pressed="true">Sahih International</button>
+          <button class="toggle-btn" data-translation="167"
+            aria-pressed="false">The Clear Quran</button>
+        </div>
+      </div>
+
+      <!-- Font Size -->
+      <div class="control-group">
+        <span class="control-label" id="fontsize-label">Font Size</span>
+        <div class="font-size-controls" role="group" aria-labelledby="fontsize-label">
+          <button class="size-btn" data-size="small" aria-label="Small font">A</button>
+          <button class="size-btn active" data-size="medium" aria-label="Medium font">A</button>
+          <button class="size-btn" data-size="large" aria-label="Large font">A</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Surah Info Card -->
+    <div id="surah-info" class="surah-info-card hidden" aria-live="polite">
+      <div class="surah-meta">
+        <div class="surah-name-ar" id="surah-name-ar" dir="rtl"></div>
+        <div class="surah-details">
+          <span id="surah-name-en"></span>
+          <span class="meta-divider" aria-hidden="true">•</span>
+          <span id="surah-revelation"></span>
+          <span class="meta-divider" aria-hidden="true">•</span>
+          <span id="surah-ayahs"></span> Ayahs
+        </div>
+      </div>
+    </div>
+
+    <!-- Bismillah Banner -->
+    <div id="bismillah" class="bismillah-banner hidden" aria-label="Bismillah">
+      <span class="bismillah-text" dir="rtl">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</span>
+      <span class="bismillah-translation">In the name of Allah, the Entirely Merciful, the Especially Merciful</span>
+    </div>
+
+    <!-- Verses Container -->
+    <div id="verses-container" class="verses-container" aria-live="polite" aria-label="Quran verses">
+      <div class="loading-state">
+        <p style="font-family:'Cinzel',serif;font-size:0.9rem;letter-spacing:0.1em;color:var(--text-muted)">
+          Select a Surah to begin reading
+        </p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Scroll to Top -->
+  <button class="scroll-top-btn hidden" id="scroll-top" aria-label="Scroll to top">&#8679;</button>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="app-footer">
+    <p>
+      Arabic text sourced from <strong>Tanzil Project</strong> via <strong>Quran.com API v4</strong>
+      &nbsp;·&nbsp;
+      Translations: Sahih International &amp; Dr. Mustafa Khattab (The Clear Quran)
+    </p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/quran.js"></script>
+</body>
+</html>

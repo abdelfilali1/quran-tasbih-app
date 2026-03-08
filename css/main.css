@@ -1,0 +1,254 @@
+/* =========================================================
+   MAIN.CSS — Shared Design System
+   Islamic Quran & Tasbih App
+   ========================================================= */
+
+/* --- Google Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap');
+
+/* --- Design Tokens --- */
+:root {
+  --bg:          #0D1B12;
+  --surface:     #142318;
+  --surface-2:   #1a2d1f;
+  --border:      #2A3D2F;
+  --gold:        #C9A84C;
+  --gold-light:  #E8C96A;
+  --gold-dim:    rgba(201, 168, 76, 0.25);
+  --emerald:     #1E6B45;
+  --emerald-2:   #2a8a5a;
+  --text:        #F0EAD6;
+  --text-muted:  #A89B7A;
+  --text-faint:  #6b6045;
+  --radius:      12px;
+  --radius-lg:   16px;
+  --shadow:      0 4px 24px rgba(0,0,0,0.4);
+  --shadow-gold: 0 0 20px rgba(201,168,76,0.2);
+  --transition:  0.25s ease;
+}
+
+/* --- Reset --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* --- Background Pattern --- */
+.bg-pattern {
+  position: fixed;
+  inset: 0;
+  background-image: url('../assets/pattern.svg');
+  background-repeat: repeat;
+  background-size: 120px 120px;
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* --- Layout --- */
+.app-header,
+.main-content,
+.app-footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Header --- */
+.app-header {
+  background: linear-gradient(180deg, rgba(13,27,18,0.98) 0%, rgba(20,35,24,0.95) 100%);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/* Title */
+.app-title {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.title-arabic {
+  font-family: 'Amiri', serif;
+  font-size: 1.5rem;
+  color: var(--gold);
+  letter-spacing: 0.02em;
+  direction: rtl;
+}
+
+.title-latin {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Navigation */
+.app-nav {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 20px;
+  border-radius: 50px;
+  border: 1px solid transparent;
+  text-decoration: none;
+  color: var(--text-muted);
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  transition: all var(--transition);
+}
+
+.nav-link:hover {
+  color: var(--gold-light);
+  border-color: var(--gold-dim);
+  background: rgba(201,168,76,0.06);
+}
+
+.nav-link.active {
+  color: var(--gold);
+  border-color: var(--gold-dim);
+  background: rgba(201,168,76,0.10);
+}
+
+.nav-icon {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* --- Main Content --- */
+.main-content {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+
+/* --- Divider --- */
+.gold-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  margin: 20px 0;
+}
+
+/* --- Loader --- */
+.loader {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--border);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* --- Loading State --- */
+.loading-state {
+  text-align: center;
+  padding: 80px 24px;
+  color: var(--text-muted);
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+}
+
+/* --- Error State --- */
+.error-state {
+  text-align: center;
+  padding: 60px 24px;
+  color: var(--text-muted);
+}
+
+.error-state h3 {
+  font-family: 'Cinzel', serif;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+/* --- Scroll to Top --- */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-dim);
+  background: var(--surface);
+  color: var(--gold);
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  transition: all var(--transition);
+  box-shadow: var(--shadow);
+}
+
+.scroll-top-btn:hover {
+  background: var(--emerald);
+  border-color: var(--gold);
+  box-shadow: var(--shadow-gold);
+}
+
+/* --- Utility --- */
+.hidden { display: none !important; }
+
+/* --- Footer --- */
+.app-footer {
+  text-align: center;
+  padding: 24px;
+  border-top: 1px solid var(--border);
+  color: var(--text-faint);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  position: relative;
+  z-index: 1;
+}
+
+.app-footer strong { color: var(--text-muted); }
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+  .header-inner { padding: 0 16px; }
+  .main-content { padding: 20px 16px 60px; }
+  .title-arabic { font-size: 1.2rem; }
+  .nav-link span:last-child { display: none; }
+  .nav-link { padding: 8px 14px; }
+}
