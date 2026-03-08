@@ -3,15 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Interactive digital Tasbih counter for Islamic dhikr and remembrance." />`r`n  <meta name="theme-color" content="#0D1B12" />
-  <title>التسبيح — Tasbih Counter</title>
+  <meta name="description" content="Interactive digital Tasbih counter for Islamic dhikr and remembrance." />
+  <meta name="theme-color" content="#0D1B12" />
+  <title>التسبيح &mdash; Tasbih Counter</title>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
 
-  <!-- Styles -->`r`n  <link rel="manifest" href="manifest.webmanifest" />`r`n  <link rel="stylesheet" href="css/main.css" />
+  <!-- Styles -->
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="css/main.css" />
   <link rel="stylesheet" href="css/tasbih.css" />
 </head>
 <body>
@@ -28,11 +31,11 @@
       </div>
       <nav class="app-nav" aria-label="Main navigation">
         <a href="index.html" class="nav-link">
-          <span class="nav-icon" aria-hidden="true">☽</span>
+          <span class="nav-icon" aria-hidden="true">&#9789;</span>
           <span>Quran</span>
         </a>
         <a href="tasbih.html" class="nav-link active" aria-current="page">
-          <span class="nav-icon" aria-hidden="true">✦</span>
+          <span class="nav-icon" aria-hidden="true">&#10022;</span>
           <span>Tasbih</span>
         </a>
       </nav>
@@ -75,7 +78,7 @@
       class="bead-ring-wrap phase-1"
       role="button"
       tabindex="0"
-      aria-label="Tasbih counter — click or press Space to count"
+      aria-label="Tasbih counter &mdash; click or press Space to count"
       aria-live="polite"
     >
       <!-- SVG bead ring is injected here by tasbih.js -->
@@ -128,12 +131,15 @@
     </div>
 
     <!-- Action Buttons -->
-    <div class="action-buttons">`r`n      <button class="btn" id="undo-btn" aria-label="Undo last count">Undo</button>`r`n      <button class="btn btn-reset" id="reset-btn" aria-label="Reset counter">`r`n        Reset`r`n      </button>`r`n    </div>
+    <div class="action-buttons">
+      <button class="btn" id="undo-btn" aria-label="Undo last count">Undo</button>
+      <button class="btn btn-reset" id="reset-btn" aria-label="Reset counter">Reset</button>
+    </div>
 
     <!-- Instructions -->
     <p style="text-align:center;font-family:'Cinzel',serif;font-size:0.65rem;
               letter-spacing:0.14em;text-transform:uppercase;color:var(--text-faint);margin-top:8px;">
-      Click · Touch · Spacebar · Enter
+      Click &middot; Touch &middot; Spacebar &middot; Enter
     </p>
 
   </main>
@@ -141,9 +147,9 @@
   <!-- ====== SESSION COMPLETE MODAL ====== -->
   <div id="modal-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal-card">
-      <div class="modal-star" aria-hidden="true">✦</div>
+      <div class="modal-star" aria-hidden="true">&#10022;</div>
       <div class="modal-title" id="modal-title" dir="rtl">بَارَكَ اللَّهُ فِيكَ</div>
-      <div class="modal-subtitle">Session Complete — May Allah accept your dhikr</div>
+      <div class="modal-subtitle">Session Complete &mdash; May Allah accept your dhikr</div>
 
       <div class="modal-summary">
         <div class="summary-row">
@@ -152,7 +158,7 @@
         </div>
         <div class="summary-row">
           <span class="summary-phrase">Alhamdulillah</span>
-          <span class="summary-count" id="modal-subhan-count">x 33</span>
+          <span class="summary-count" id="modal-alhamd-count">x 33</span>
         </div>
         <div class="summary-row">
           <span class="summary-phrase">Allahu Akbar</span>
@@ -175,13 +181,15 @@
   <!-- ====== FOOTER ====== -->
   <footer class="app-footer">
     <p>
-      Tasbeeh Fatimah: SubhanAllah × 33 · Alhamdulillah × 33 · Allahu Akbar × 34
-      &nbsp;·&nbsp;
+      Tasbeeh Fatimah: SubhanAllah &times; 33 &middot; Alhamdulillah &times; 33 &middot; Allahu Akbar &times; 34
+      &nbsp;&middot;&nbsp;
       Based on authentic hadith (Sahih al-Bukhari &amp; Muslim)
     </p>
   </footer>
 
-  <!-- Scripts -->`r`n  <script src="js/utils/tasbih-utils.js"></script>`r`n  <script src="js/tasbih.js"></script>`r`n  <script src="js/pwa.js"></script>
+  <!-- Scripts -->
+  <script src="js/utils/tasbih-utils.js"></script>
+  <script src="js/tasbih.js"></script>
+  <script src="js/pwa.js"></script>
 </body>
 </html>
-

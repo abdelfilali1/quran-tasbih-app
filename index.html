@@ -3,15 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Read the Holy Quran in Arabic with verified English translations." />`r`n  <meta name="theme-color" content="#0D1B12" />
-  <title>القرآن الكريم — The Holy Quran</title>
+  <meta name="description" content="Read the Holy Quran in Arabic with verified English translations." />
+  <meta name="theme-color" content="#0D1B12" />
+  <title>القرآن الكريم &mdash; The Holy Quran</title>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
 
-  <!-- Styles -->`r`n  <link rel="manifest" href="manifest.webmanifest" />`r`n  <link rel="stylesheet" href="css/main.css" />
+  <!-- Styles -->
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="css/main.css" />
   <link rel="stylesheet" href="css/quran.css" />
 </head>
 <body class="font-medium">
@@ -28,11 +31,11 @@
       </div>
       <nav class="app-nav" aria-label="Main navigation">
         <a href="index.html" class="nav-link active" aria-current="page">
-          <span class="nav-icon" aria-hidden="true">☽</span>
+          <span class="nav-icon" aria-hidden="true">&#9789;</span>
           <span>Quran</span>
         </a>
         <a href="tasbih.html" class="nav-link">
-          <span class="nav-icon" aria-hidden="true">✦</span>
+          <span class="nav-icon" aria-hidden="true">&#10022;</span>
           <span>Tasbih</span>
         </a>
       </nav>
@@ -50,7 +53,7 @@
         <label for="surah-select" class="control-label">Surah</label>
         <div class="select-wrapper">
           <select id="surah-select" class="styled-select" aria-label="Select a surah">
-            <option value="">Loading surahs…</option>
+            <option value="">Loading surahs&hellip;</option>
           </select>
         </div>
       </div>
@@ -84,9 +87,9 @@
         <div class="surah-name-ar" id="surah-name-ar" dir="rtl"></div>
         <div class="surah-details">
           <span id="surah-name-en"></span>
-          <span class="meta-divider" aria-hidden="true">•</span>
+          <span class="meta-divider" aria-hidden="true">&bull;</span>
           <span id="surah-revelation"></span>
-          <span class="meta-divider" aria-hidden="true">•</span>
+          <span class="meta-divider" aria-hidden="true">&bull;</span>
           <span id="surah-ayahs"></span> Ayahs
         </div>
       </div>
@@ -116,12 +119,15 @@
   <footer class="app-footer">
     <p>
       Arabic text sourced from <strong>Tanzil Project</strong> via <strong>Quran.com API v4</strong>
-      &nbsp;·&nbsp;
+      &nbsp;&middot;&nbsp;
       Translations: Sahih International &amp; Dr. Mustafa Khattab (The Clear Quran)
     </p>
   </footer>
 
-  <!-- Scripts -->`r`n  <script src="js/utils/quran-utils.js"></script>`r`n  <script src="js/api.js"></script>`r`n  <script src="js/quran.js"></script>`r`n  <script src="js/pwa.js"></script>
+  <!-- Scripts -->
+  <script src="js/utils/quran-utils.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/quran.js"></script>
+  <script src="js/pwa.js"></script>
 </body>
 </html>
-
