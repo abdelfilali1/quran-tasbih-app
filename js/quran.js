@@ -1,4 +1,4 @@
-﻿/* =========================================================
+/* =========================================================
    QURAN.JS - Quran Reader Logic
    ========================================================= */
 
@@ -14,7 +14,7 @@
       return Number.isFinite(n) ? Math.min(114, Math.max(1, n)) : null;
     },
     sanitizeTranslationText: (value) => String(value || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim(),
-    toArabicNumeral: (value) => String(value).replace(/\d/g, (d) => '??????????'[d])
+    toArabicNumeral: (value) => String(value).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d])
   };
 
   // Surah 9 (At-Tawbah) does NOT have Bismillah
@@ -24,7 +24,8 @@
   const STORAGE_KEYS = {
     FONT_SIZE: 'quran_font_size',
     LAST_SURAH: 'quran_last_surah',
-    TRANSLATION: 'quran_translation'
+    TRANSLATION: 'quran_translation',
+    BOOKMARK: 'quran_bookmark_v1'
   };
 
   // DOM refs
@@ -36,6 +37,10 @@
   const surahRevelation = document.getElementById('surah-revelation');
   const surahAyahs = document.getElementById('surah-ayahs');
   const bismillahBanner = document.getElementById('bismillah');
+  const resumeBanner = document.getElementById('resume-banner');
+  const resumeLabel = document.getElementById('resume-label');
+  const resumeGoBtn = document.getElementById('resume-go');
+  const resumeDismissBtn = document.getElementById('resume-dismiss');
   const scrollTopBtn = document.getElementById('scroll-top');
   const translationBtns = document.querySelectorAll('.toggle-btn');
   const sizeBtns = document.querySelectorAll('.size-btn');
@@ -47,6 +52,7 @@
   let isLoading = false;
   let pendingSurahId = null;
   let loadToken = 0;
+  let scrollSaveTimer = null;
 
   const SUPPORTED_TRANSLATIONS = new Set(
     Object.keys((window.API && window.API.TRANSLATIONS) || { 131: true, 167: true }).map(Number)
@@ -59,6 +65,7 @@
     setupScrollTop();
     setupVerseActions();
     setupKeyboardShortcuts();
+    setupResumeBanner();
 
     await loadSurahList();
     restorePreferences();
@@ -153,6 +160,7 @@
     setBusy(true);
     surahInfoCard.classList.add('hidden');
     bismillahBanner.classList.add('hidden');
+    resumeBanner.classList.add('hidden');
 
     try {
       const [chapter, verses] = await Promise.all([
@@ -165,6 +173,7 @@
       renderSurahInfo(chapter);
       renderBismillah(normalizedId);
       renderVerses(verses);
+      maybeShowResumeBanner(normalizedId);
     } catch (err) {
       if (token !== loadToken) return;
       showError(err);
@@ -219,6 +228,7 @@
 
       const card = document.createElement('article');
       card.className = 'verse-card';
+      card.dataset.ayah = verseNum;
       card.style.animationDelay = `${Math.min(i * 0.03, 0.4)}s`;
 
       const header = document.createElement('div');
@@ -272,6 +282,8 @@
     if (!surahInfoCard.classList.contains('hidden')) {
       surahInfoCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+
+    setupScrollPositionTracker();
   }
 
   /* ---------- Loader / Error States ---------- */
@@ -435,6 +447,104 @@
         surahSelect.value = String(prevId);
         loadSurah(prevId);
       }
+    });
+  }
+
+  /* =========================================================
+     BOOKMARK / READING POSITION
+     ========================================================= */
+
+  function saveBookmark(surahId, ayahNum) {
+    const surahName = surahNameEn.textContent || `Surah ${surahId}`;
+    try {
+      localStorage.setItem(STORAGE_KEYS.BOOKMARK, JSON.stringify({ surahId, ayahNum, surahName }));
+    } catch {}
+  }
+
+  function loadBookmark() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEYS.BOOKMARK);
+      if (!raw) return null;
+      const b = JSON.parse(raw);
+      if (!b || !b.surahId || !b.ayahNum) return null;
+      return b;
+    } catch {
+      return null;
+    }
+  }
+
+  /* Track which verse is most visible as the user scrolls */
+  function setupScrollPositionTracker() {
+    window.removeEventListener('scroll', onScrollSaveDebounced);
+    window.addEventListener('scroll', onScrollSaveDebounced, { passive: true });
+  }
+
+  function onScrollSaveDebounced() {
+    clearTimeout(scrollSaveTimer);
+    scrollSaveTimer = setTimeout(saveCurrentPosition, 300);
+  }
+
+  function saveCurrentPosition() {
+    if (!currentSurahId) return;
+    const cards = versesContainer.querySelectorAll('.verse-card[data-ayah]');
+    if (!cards.length) return;
+
+    const midY = window.scrollY + window.innerHeight / 2;
+    let closest = null;
+    let closestDist = Infinity;
+
+    cards.forEach((card) => {
+      const rect = card.getBoundingClientRect();
+      const cardMidY = window.scrollY + rect.top + rect.height / 2;
+      const dist = Math.abs(cardMidY - midY);
+      if (dist < closestDist) {
+        closestDist = dist;
+        closest = card;
+      }
+    });
+
+    if (closest) {
+      saveBookmark(currentSurahId, parseInt(closest.dataset.ayah, 10));
+    }
+  }
+
+  /* Show the resume banner only if the bookmark is for the current surah
+     and is past the first ayah, and the user hasn't dismissed it this session */
+  function maybeShowResumeBanner(surahId) {
+    if (sessionStorage.getItem('quran_dismiss_bookmark') === '1') return;
+
+    const bookmark = loadBookmark();
+    if (!bookmark || bookmark.surahId !== surahId || bookmark.ayahNum <= 1) return;
+
+    resumeLabel.textContent = `${bookmark.surahName}, Ayah ${bookmark.ayahNum}`;
+    resumeBanner.classList.remove('hidden');
+  }
+
+  function setupResumeBanner() {
+    if (!resumeGoBtn || !resumeDismissBtn) return;
+
+    resumeGoBtn.addEventListener('click', () => {
+      resumeBanner.classList.add('hidden');
+      const bookmark = loadBookmark();
+      if (!bookmark) return;
+
+      const target = versesContainer.querySelector(`.verse-card[data-ayah="${bookmark.ayahNum}"]`);
+      if (!target) return;
+
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      // Brief gold highlight after scroll settles
+      setTimeout(() => {
+        target.classList.add('bookmark-highlight');
+        target.addEventListener('animationend', () => target.classList.remove('bookmark-highlight'), { once: true });
+      }, 600);
+
+      announce(`Resumed at Ayah ${bookmark.ayahNum}`);
+    });
+
+    resumeDismissBtn.addEventListener('click', () => {
+      resumeBanner.classList.add('hidden');
+      sessionStorage.setItem('quran_dismiss_bookmark', '1');
     });
   }
 

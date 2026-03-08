@@ -191,6 +191,60 @@
   color: var(--gold-dim);
 }
 
+/* --- Resume Reading Banner --- */
+.resume-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  background: linear-gradient(135deg, rgba(201,168,76,0.10) 0%, rgba(30,107,69,0.12) 100%);
+  border: 1px solid var(--gold-dim);
+  border-radius: var(--radius);
+  padding: 14px 20px;
+  margin-bottom: 20px;
+  animation: fadeIn 0.35s ease both;
+}
+
+.resume-icon {
+  color: var(--gold);
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.resume-text {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  flex: 1;
+  min-width: 0;
+}
+
+.resume-text strong {
+  color: var(--gold-light);
+}
+
+.resume-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.resume-btn {
+  padding: 6px 16px;
+  font-size: 0.8rem;
+}
+
+/* Highlight animation for resumed verse */
+@keyframes verseHighlight {
+  0%   { box-shadow: 0 0 0 0 rgba(201,168,76,0.55); border-color: var(--gold); }
+  60%  { box-shadow: 0 0 0 8px rgba(201,168,76,0); border-color: var(--gold); }
+  100% { box-shadow: none; border-color: var(--border); }
+}
+
+.verse-card.bookmark-highlight {
+  animation: verseHighlight 1.6s ease forwards;
+}
+
 /* --- Bismillah Banner --- */
 .bismillah-banner {
   text-align: center;
