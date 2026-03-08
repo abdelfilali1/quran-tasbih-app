@@ -1,4 +1,4 @@
-/* =========================================================
+﻿/* =========================================================
    API.JS - Quran.com API v4 with resilient caching
    Source: https://api.quran.com/api/v4
    ========================================================= */
@@ -12,8 +12,8 @@ const API = (() => {
     167: 'The Clear Quran (Dr. Mustafa Khattab)'
   };
 
-  // Cache helpers
-  const CACHE_PREFIX = 'quran_v1_';
+  // Cache helpers — bump version to invalidate stale entries
+  const CACHE_PREFIX = 'quran_v2_';
   const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
   function cacheRead(key) {
@@ -119,7 +119,8 @@ const API = (() => {
 
     try {
       // per_page=300 covers the longest surah (Al-Baqarah = 286 verses)
-      const path = `/verses/by_chapter/${chapterId}?language=en&translations=${translationId}&fields=text_uthmani&per_page=300&page=1`;
+      // fields=text_uthmani is the default; translations param is independent
+      const path = `/verses/by_chapter/${chapterId}?language=en&translations=${translationId}&fields=text_uthmani,verse_key&per_page=300&page=1`;
       const json = await apiFetch(path);
       const verses = json.verses;
       cacheSet(key, verses);
@@ -133,3 +134,4 @@ const API = (() => {
 
   return { fetchChapters, fetchChapter, fetchVerses, TRANSLATIONS };
 })();
+
