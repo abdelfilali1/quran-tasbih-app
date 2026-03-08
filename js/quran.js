@@ -53,6 +53,8 @@
   let pendingSurahId = null;
   let loadToken = 0;
   let scrollSaveTimer = null;
+  let isAutoScrolling = false;       // true during page-load scroll → skip position save
+  let pendingResumeBookmark = null;  // snapshot captured when banner is shown
 
   const SUPPORTED_TRANSLATIONS = new Set(
     Object.keys((window.API && window.API.TRANSLATIONS) || { 131: true, 167: true }).map(Number)
@@ -285,7 +287,10 @@
     versesContainer.replaceChildren(fragment);
 
     if (!surahInfoCard.classList.contains('hidden')) {
+      isAutoScrolling = true;
       surahInfoCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Allow enough time for the smooth scroll to finish before re-enabling saves
+      setTimeout(() => { isAutoScrolling = false; }, 1200);
     }
 
     setupScrollPositionTracker();
@@ -490,7 +495,7 @@
   }
 
   function saveCurrentPosition() {
-    if (!currentSurahId) return;
+    if (!currentSurahId || isAutoScrolling) return;
     const cards = versesContainer.querySelectorAll('.verse-card[data-ayah]');
     if (!cards.length) return;
 
@@ -535,6 +540,9 @@
     const bookmark = loadBookmark();
     if (!bookmark || bookmark.surahId !== surahId || bookmark.ayahNum <= 1) return;
 
+    // Snapshot now — the scroll listener can overwrite localStorage later
+    pendingResumeBookmark = { ...bookmark };
+
     resumeLabel.textContent = `${bookmark.surahName}, Ayah ${bookmark.ayahNum}`;
     resumeBanner.classList.remove('hidden');
   }
@@ -544,13 +552,18 @@
 
     resumeGoBtn.addEventListener('click', () => {
       resumeBanner.classList.add('hidden');
-      const bookmark = loadBookmark();
+
+      // Use the snapshot captured at banner-show time, not a fresh localStorage read
+      const bookmark = pendingResumeBookmark;
+      pendingResumeBookmark = null;
       if (!bookmark) return;
 
       const target = versesContainer.querySelector(`.verse-card[data-ayah="${bookmark.ayahNum}"]`);
       if (!target) return;
 
+      isAutoScrolling = true;
       target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => { isAutoScrolling = false; }, 1200);
 
       // Brief gold highlight after scroll settles
       setTimeout(() => {
@@ -563,6 +576,7 @@
 
     resumeDismissBtn.addEventListener('click', () => {
       resumeBanner.classList.add('hidden');
+      pendingResumeBookmark = null;
       sessionStorage.setItem('quran_dismiss_bookmark', '1');
     });
   }
