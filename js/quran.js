@@ -66,6 +66,7 @@
     setupVerseActions();
     setupKeyboardShortcuts();
     setupResumeBanner();
+    setupPageLeaveTrackers();
 
     await loadSurahList();
     restorePreferences();
@@ -132,11 +133,15 @@
     const savedSize = localStorage.getItem(STORAGE_KEYS.FONT_SIZE) || 'medium';
     applyFontSize(savedSize, false);
 
+    // Prefer the bookmarked surah so the resume banner can appear
+    const bookmark = loadBookmark();
     const lastSurahRaw = sessionStorage.getItem('lastSurah') || localStorage.getItem(STORAGE_KEYS.LAST_SURAH);
     const lastSurah = Utils.normalizeSurahId(lastSurahRaw);
-    if (lastSurah) {
-      surahSelect.value = String(lastSurah);
-      loadSurah(lastSurah);
+    const targetSurah = (bookmark && bookmark.surahId) ? bookmark.surahId : lastSurah;
+
+    if (targetSurah) {
+      surahSelect.value = String(targetSurah);
+      loadSurah(targetSurah);
     }
   }
 
@@ -481,7 +486,7 @@
 
   function onScrollSaveDebounced() {
     clearTimeout(scrollSaveTimer);
-    scrollSaveTimer = setTimeout(saveCurrentPosition, 300);
+    scrollSaveTimer = setTimeout(saveCurrentPosition, 150);
   }
 
   function saveCurrentPosition() {
@@ -506,6 +511,20 @@
     if (closest) {
       saveBookmark(currentSurahId, parseInt(closest.dataset.ayah, 10));
     }
+  }
+
+  /* Also flush position when the user hides the tab or closes the page */
+  function setupPageLeaveTrackers() {
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        clearTimeout(scrollSaveTimer);
+        saveCurrentPosition();
+      }
+    });
+    window.addEventListener('beforeunload', () => {
+      clearTimeout(scrollSaveTimer);
+      saveCurrentPosition();
+    });
   }
 
   /* Show the resume banner only if the bookmark is for the current surah
