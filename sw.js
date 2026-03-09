@@ -13,7 +13,9 @@ const APP_SHELL = [
   './js/tasbih.js',
   './js/utils/quran-utils.js',
   './js/utils/tasbih-utils.js',
-  './assets/pattern.svg'
+  './assets/pattern.svg',
+  './assets/icons/icon-192.png',
+  './assets/icons/icon-512.png'
 ];
 
 self.addEventListener('install', (event) => {
