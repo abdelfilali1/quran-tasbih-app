@@ -19,7 +19,7 @@
 
   // Surah 9 (At-Tawbah) does NOT have Bismillah
   const NO_BISMILLAH_SURAH = 9;
-  const DEFAULT_TRANSLATION = 131;
+  const DEFAULT_TRANSLATION = 20;
 
   const STORAGE_KEYS = {
     FONT_SIZE: 'quran_font_size',

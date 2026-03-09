@@ -6,14 +6,14 @@
 const API = (() => {
   const BASE = 'https://api.quran.com/api/v4';
 
-  // Translation IDs (Quran.com verified)
+  // Translation IDs (Quran.com API v4 verified)
   const TRANSLATIONS = {
-    131: 'Sahih International',
-    167: 'The Clear Quran (Dr. Mustafa Khattab)'
+    20:  'Saheeh International',
+    85:  'M.A.S. Abdel Haleem'
   };
 
   // Cache helpers — bump version to invalidate stale entries
-  const CACHE_PREFIX = 'quran_v2_';
+  const CACHE_PREFIX = 'quran_v3_';
   const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
   function cacheRead(key) {
